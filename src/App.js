@@ -21,6 +21,17 @@ function App() {
     toggleTrigger()
   }
 
+  const handleDone = (e) => {
+    const newTaskListOut = JSON.parse(localStorage.reactTask).filter(out => out.id !== +e.target.id)
+    const newTaskListIn = JSON.parse(localStorage.reactTask).filter(out => out.id === +e.target.id)[0]
+    const newObj = {
+      ...newTaskListIn,
+      done: !newTaskListIn.done
+    }
+    localStorage.setItem('reactTask', JSON.stringify([...newTaskListOut, newObj]))
+    toggleTrigger()
+  }
+
   useEffect(() => {
     if (localStorage.getItem('reactTask')){
       if (localStorage.reactTask !== ''){
@@ -39,7 +50,7 @@ function App() {
     <div className="bg-gray-100 container h-screen w-screen overflow-hidden flex justify-center items-center text-gray-800">
       <div className='bg-white shadow-md w-[500px] px-4 py-7'>
         <Navbar addTaskToggle={addTaskToggle} addTaskToggleFunc={addTaskToggleFunc} toggleTrigger={toggleTrigger} />
-        <MainContent taskList={taskList} handleDelete={handleDelete} />
+        <MainContent taskList={taskList} handleDelete={handleDelete} handleDone={handleDone} />
       </div>
     </div>
   );

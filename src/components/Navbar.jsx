@@ -1,13 +1,24 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 
 function Navbar({ addTaskToggle, addTaskToggleFunc, toggleTrigger }) {
     const [typedData, setTypedData] = useState('')
     
     const handleSubmit = (e) => {
         e.preventDefault()
+        const date = new Date()
+        
+        function dateFormat(n) {
+            return (n < 10 ? '0' : '') + n;
+          }
+
+        const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+        const today = `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()} ${dateFormat(date.getHours())}:${dateFormat(date.getMinutes())}`
+
         const intakeData = {
-            id: new Date().getTime(),
-            text: typedData
+            id: date.getTime(),
+            text: typedData,
+            done: false,
+            created: today
         }
         if (localStorage.reactTask === ''){
             localStorage.setItem('reactTask', JSON.stringify([intakeData]))
